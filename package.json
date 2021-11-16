@@ -1,5 +1,5 @@
 {
-  "name": "mny-app",
+  "name": "nextjs-with-typescript",
   "private": true,
   "scripts": {
     "dev": "next dev",

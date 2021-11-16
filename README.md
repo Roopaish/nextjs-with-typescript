@@ -1,6 +1,6 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js with Typescript
 
-## Getting Started
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`]
 
 First, run the development server:
 
@@ -10,25 +10,154 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Why?
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- SSG and SSR
+- SEO
+- Improves performance as information are pre-loaded
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Folder Structure
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+node-modules: dependencies  
+pages: different pages/routes, next will auto create route for different files (for contect.js, /contact route will be created)  
+public: final build  
+styles: styling with css
 
-## Learn More
+## Pages/Components/Routes
 
-To learn more about Next.js, take a look at the following resources:
+pages/about.tsx or pages/about.js will create /about route and for pages/index.tsx, / route will be created.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```ts
+// Define a route
+// this will be available in url/about
+const About = () => {
+  return (
+    <div>
+      <h1>About</h1>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+    </div>
+  );
+};
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+export default About;
+```
 
-## Deploy on Vercel
+pages/folder/test.tsx will create /folder/test route and for pages/folder/index.tsx, /folder route will be created.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Create reusable components. Define a folder in root directory called components and place components in there and import them to use.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```ts
+// Reusable component
+const Navbar = () => {
+  return (
+    <nav>
+      <div className="logo">
+        <h1>Coders List</h1>
+      </div>
+      <a>Home</a>
+      <a>About</a>
+      <a>Coder Listing</a>
+    </nav>
+  );
+};
+
+export default Navbar;
+```
+
+```ts
+// Using the component
+import Navbar from "../components/navbar";
+
+export default function Home() {
+  return (
+    <div>
+      <Navbar />
+    </div>
+  );
+}
+```
+
+## Linking between pages
+
+```ts
+import Link from "next/link";
+
+export default function Home() {
+  return (
+    <Link href="/coders">
+      <a>See Ninja Listing</a>
+    </Link>
+  );
+}
+```
+
+Nextjs fetches the js file needed only once and use it throughout the site.
+
+## Layouts
+
+Create layout files just like components.
+
+```ts
+// Layout
+import Footer from "./footer";
+import Navbar from "./navbar";
+
+const Layout = ({ children }) => {
+  return (
+    <div className="content">
+      <Navbar />
+      {children}
+      <Footer />
+    </div>
+  );
+};
+
+export default Layout;
+```
+
+In pages/\_app.tsx
+
+```ts
+// Defining the layout here, so that every pages will be surrounded by Layout(i.e. Navbar and Footer)
+import "../styles/globals.css"; // every page will have this style
+import type { AppProps } from "next/app";
+import Layout from "../components/Layout";
+
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
+  );
+}
+
+export default MyApp;
+```
+
+## Styling
+
+In styles/globals.css, we define css that will be applied to every page cause it is already imported in pages/\_app.tsx, from where every page is created.
+
+For module specific css, styles/Home.module.css will apply to only Home function/component/Jsx.element. And there will no class name clashes.
+
+```ts
+// Import to use
+import styles from "../styles/Home.module.css";
+
+export default function Home() {
+  return (
+    <div className={styles.container}> // use container class whose style is defined in Home.module.css, class will be changed to Home_container_randomChars to make it unique in both html and css
+    </div>
+    ...
+  );
+}
+```
+
+Home.module.css
+
+```css
+/* All should be class selector */
+.container {
+  background-color: black;
+}
+```
