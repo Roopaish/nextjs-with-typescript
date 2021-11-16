@@ -20,7 +20,7 @@ yarn dev
 
 node-modules: dependencies  
 pages: different pages/routes, next will auto create route for different files (for contect.js, /contact route will be created)  
-public: final build  
+public: assets used in the site , use /file-name to use anywhere
 styles: styling with css
 
 ## Pages/Components/Routes
@@ -162,7 +162,7 @@ Home.module.css
 }
 ```
 
-## 404 page/Auto-redirect
+## 404 page | Auto-redirect
 
 Nextjs has its default 404 page but we can create our custom 404 page.
 Create pages/404.tsx and start adding some data.
@@ -197,4 +197,64 @@ const NotFound = () => {
 };
 
 export default NotFound;
+```
+
+## Image | Head
+
+Using Image instead of img tag so that the image will only load if its visible on the screen.
+```ts
+// <img src="/logo.png" alt="logo" />
+import Image from "next/image";
+
+// Use Image instead of img
+<Image src="/logo.png" width={50} height={50} />
+```
+
+All the meta-data and title can be defined using Head component.
+```ts
+import Head from "next/head";
+
+export default function Home() {
+  return (
+    <> // using empty tag to wrap everything cause, we can only return only on tag
+      <Head>
+        <title>Coder's List | Home</title>
+        <meta name="description" content="List of Coders" />
+      </Head>
+      <div></div>
+    </>
+  );
+}
+```
+
+## fetching data | getStaticProps
+
+```ts
+// getStaticProps runs at first
+export const getStaticProps = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/users");
+  const data = await res.json();
+
+  return {
+    props: { coders: data }, // return fetched data as props
+  };
+};
+
+// receive props in here
+const Coders = ({ coders }) => {
+  return (
+    <div>
+      <h1>Coders</h1>
+      {coders.map((coder) => (
+        <div key={coder.id}> // key is needed in maps
+          <a>
+            <h3>{coder.name}</h3>
+          </a>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Coders;
 ```
