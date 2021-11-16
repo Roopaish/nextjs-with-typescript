@@ -161,3 +161,40 @@ Home.module.css
   background-color: black;
 }
 ```
+
+## 404 page/Auto-redirect
+
+Nextjs has its default 404 page but we can create our custom 404 page.
+Create pages/404.tsx and start adding some data.
+
+```ts
+import Link from "next/link";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+
+const NotFound = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    setTimeout(() => {
+      // router.back;
+      router.push("/"); // redirect to base url
+    }, 3000); // wait for 3s
+  }, []); // run when NotFound is mounted on the screen, [] means run only once
+
+  return (
+    <div className="not-found">
+      <h1>Ooops...</h1>
+      <h2>That page cannot be found.</h2>
+      <p>
+        Go back to{" "}
+        <Link href="/">
+          <a>Homepage</a>
+        </Link>
+      </p>
+    </div>
+  );
+};
+
+export default NotFound;
+```
