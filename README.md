@@ -202,21 +202,25 @@ export default NotFound;
 ## Image | Head
 
 Using Image instead of img tag so that the image will only load if its visible on the screen.
+
 ```ts
 // <img src="/logo.png" alt="logo" />
 import Image from "next/image";
 
 // Use Image instead of img
-<Image src="/logo.png" width={50} height={50} />
+<Image src="/logo.png" width={50} height={50} />;
 ```
 
 All the meta-data and title can be defined using Head component.
+
 ```ts
 import Head from "next/head";
 
 export default function Home() {
   return (
-    <> // using empty tag to wrap everything cause, we can only return only on tag
+    <>
+      {" "}
+      // using empty tag to wrap everything cause, we can only return only on tag
       <Head>
         <title>Coder's List | Home</title>
         <meta name="description" content="List of Coders" />
@@ -246,7 +250,9 @@ const Coders = ({ coders }) => {
     <div>
       <h1>Coders</h1>
       {coders.map((coder) => (
-        <div key={coder.id}> // key is needed in maps
+        <div key={coder.id}>
+          {" "}
+          // key is needed in maps
           <a>
             <h3>{coder.name}</h3>
           </a>
@@ -257,4 +263,13 @@ const Coders = ({ coders }) => {
 };
 
 export default Coders;
+```
+
+## Dynamic Routes | getStaticPaths
+
+Create [id].tsx or anything but it should be wrapped with [], so that we can target this route with anything we pass in url.  
+Eg: This file is in pages/coders/[id].tsx. When we type url: base_url/pages/coders/123, 123 will be assigned to id which can be used to generate data based on that.
+
+```ts
+
 ```
