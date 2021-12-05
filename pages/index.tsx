@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Coder's List | Home</title>
+        <title>Coder&apos;s List | Home</title>
         <meta name="description" content="List of Coders" />
       </Head>
       <div>
