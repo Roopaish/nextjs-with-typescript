@@ -1,5 +1,7 @@
 const Details = ()=>{
-  return();
+  return(
+    <p>Hello</p>
+  );
 }
 
 export default Details;

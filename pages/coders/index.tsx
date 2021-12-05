@@ -10,11 +10,11 @@ export const getStaticProps = async () => {
   };
 };
 
-const Coders = ({ coders }) => {
+const Coders = ({ coders }:any) => {
   return (
     <div>
       <h1>Coders</h1>
-      {coders.map((coder) => (
+      {coders.map((coder:any) => (
         <Link href={"coders/" + coder.id} key={coder.id}>
           <a className={styles.single}>
             <h3>{coder.name}</h3>
